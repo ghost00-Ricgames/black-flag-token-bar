@@ -1,0 +1,31 @@
+<div id="black-flag-token-bar">
+    <div class="drag-handle"><i class="fas fa-grip-vertical"></i></div>
+    
+    <div class="bar-controls">
+        <button class="request-rolls-btn" title="Request Rolls">
+            <i class="fas fa-dice-d20"></i>
+        </button>
+    </div>
+    
+    <div class="token-stats-container">
+        {{#each tokens}}
+        <div class="token-stat-block">
+            <img class="token-portrait" src="{{this.img}}" data-actor-id="{{this.id}}" title="{{this.name}}">
+            <div class="stat-values">
+                <span class="stat ac" title="Armor Class"><i class="fas fa-shield-alt"></i> {{this.ac}}</span>
+                <span class="stat hp" title="Health"><i class="fas fa-heart"></i> {{this.hp.value}}/{{this.hp.max}}</span>
+                <span class="stat luck" title="Luck"><i class="fas fa-clover"></i> {{this.luck}}</span>
+            </div>
+        </div>
+        {{#unless @last}}<div class="stat-divider"></div>{{/unless}}
+        {{else}}
+        <span style="font-size: 10px; opacity: 0.5; padding: 10px;">No Player Characters Found</span>
+        {{/each}}
+    </div>
+
+    <div class="utility-controls" style="border-left: 1px solid #444; padding-left: 10px; margin-left: 5px; display: flex; align-items: center;">
+        <button class="clear-rolls-btn" title="Clear All Roll Requests" style="background: #1a1a1a; color: #ff6400; border: 1px solid #444; border-radius: 4px; width: 28px; height: 28px; cursor: pointer; font-size: 12px; transition: all 0.2s;">
+            <i class="fas fa-trash"></i>
+        </button>
+    </div>
+</div>

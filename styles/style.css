@@ -1,0 +1,60 @@
+#black-flag-token-bar {
+    position: fixed; background: rgba(10, 10, 10, 0.95); border: 2px solid #ff6400;
+    border-radius: 4px; display: flex; padding: 6px 12px; z-index: 100;
+    pointer-events: all; color: #eee; gap: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.8);
+}
+.drag-handle { cursor: grab; display: flex; align-items: center; color: #ff6400; padding-right: 8px; border-right: 1px solid #444; }
+
+/* Roll Request Button Styling */
+.request-rolls-btn { 
+    background: #222; 
+    color: #ff6400; 
+    border: 1px solid #ff6400; 
+    border-radius: 50%; 
+    width: 32px; 
+    height: 32px; 
+    cursor: pointer; 
+    font-size: 16px;
+    transition: all 0.2s ease;
+}
+.request-rolls-btn:hover {
+    box-shadow: 0 0 10px #ff6400;
+    background: #333;
+    transform: scale(1.05);
+}
+
+.bar-controls { display: flex; align-items: center; }
+
+.token-stats-container { display: flex; gap: 12px; align-items: center; }
+.token-stat-block { display: flex; align-items: center; gap: 8px; }
+.token-portrait { width: 44px; height: 44px; border: 1px solid #ff6400; border-radius: 4px; cursor: pointer; object-fit: cover; transition: transform 0.1s; }
+.token-portrait:hover { transform: scale(1.1); border-color: white; }
+
+.stat-values { display: flex; flex-direction: column; font-size: 10px; min-width: 45px; line-height: 1.2; }
+.stat i { color: #ff6400; margin-right: 3px; font-size: 10px; }
+.stat-divider { width: 1px; height: 35px; background: #444; }
+
+/* Utility Button Styling */
+.clear-rolls-btn {
+    background: #1a1a1a; 
+    color: #ff6400; 
+    border: 1px solid #444; 
+    border-radius: 4px; 
+    width: 28px; 
+    height: 28px; 
+    cursor: pointer; 
+    font-size: 12px; 
+    transition: all 0.2s;
+}
+.clear-rolls-btn:hover {
+    background: #ff0000 !important;
+    color: white !important;
+    border-color: white !important;
+}
+
+/* Dialog Styling */
+.bfr-selector { font-size: 11px; color: #000 !important; line-height: 1.1; }
+.bfr-section-title { font-weight: bold; color: #cc5200; border-bottom: 1px solid #cc5200; margin: 8px 0 4px 0; font-size: 11px; }
+.bfr-link-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 2px 0; }
+.roll-link { cursor: pointer !important; color: #000 !important; font-weight: 700; text-decoration: none; padding: 3px; border-radius: 2px; background: rgba(0,0,0,0.05); text-align: center; }
+.roll-link:hover { color: #ffffff !important; background: #cc5200; }

@@ -40,6 +40,7 @@ To install the module, go to the **Add-on Modules** tab in the Foundry VTT setup
 3.  **Player Interaction:** Players receive a private chat card with a "Roll Now" button.
 4.  **GM Oversight:** The GM can also click the "Roll Now" button in chat to assist players.
 5.  **Clean Up:** Use the **Trash icon** on the far right to delete all pending BFR requests from the chat log.
+6.  **Conditions** Select any PC or NPC on field. click on button to apply or reset condition flags.
 
 ## ⚖️ License
 

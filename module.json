@@ -1,14 +1,14 @@
 {
   "id": "black-flag-token-bar",
   "title": "Black Flag Token Bar",
-  "description": "A draggable GM HUD for Black Flag Roleplaying that tracks PC stats (AC, HP, Luck) and allows for quick, high-contrast roll requests with automated modifier calculation.",
+  "description": "A draggable GM HUD for Black Flag Roleplaying that tracks PC stats (AC, HP, Luck) and allows for quick, high-contrast roll requests with automated modifier calculation. Includes ability to select actor tokens to apply core conditions",
   "authors": [
     {
       "name": "Ghost00-RicsGames",
       "url": "https://github.com/ghost00-Ricgames/black-flag-token-bar"
     }
   ],
-  "version": "1.0.0",
+  "version": "1.1.0",
   "compatibility": {
     "minimum": "12",
     "verified": "13",
@@ -35,4 +35,5 @@
   "url": "https://github.com/ghost00-Ricgames/black-flag-token-bar",
   "manifest": "https://github.com/ghost00-Ricgames/black-flag-token-bar/releases/latest/download/module.json",
   "download": "https://github.com/ghost00-Ricgames/black-flag-token-bar/releases/download/v1.0.0/module.zip"
+
 }

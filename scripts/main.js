@@ -8,7 +8,17 @@ Hooks.once('init', () => {
 });
 
 Hooks.on('ready', () => {
-    if (game.user.isGM) new BlackFlagTokenBar().render(true);
+    if (game.user.isGM) {
+        game.blackFlagTokenBar = new BlackFlagTokenBar();
+        game.blackFlagTokenBar.render(true);
+    }
+});
+
+// Refresh the bar whenever an Actor's stats (HP, AC, Luck) change
+Hooks.on("updateActor", (actor) => {
+    if (game.user.isGM && game.blackFlagTokenBar && (actor.type === "character" || actor.type === "pc")) {
+        game.blackFlagTokenBar.render();
+    }
 });
 
 class BlackFlagTokenBar extends Application {

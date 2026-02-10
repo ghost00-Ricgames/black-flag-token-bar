@@ -9,9 +9,15 @@ Hooks.once('init', () => {
 
 Hooks.on('ready', () => {
     if (game.user.isGM) {
-        if (game.blackFlagTokenBar) game.blackFlagTokenBar.close();
         game.blackFlagTokenBar = new BlackFlagTokenBar();
         game.blackFlagTokenBar.render(true);
+    }
+});
+
+// Refresh the bar whenever an Actor's stats (HP, AC, Luck) change
+Hooks.on("updateActor", (actor) => {
+    if (game.user.isGM && game.blackFlagTokenBar && (actor.type === "character" || actor.type === "pc")) {
+        game.blackFlagTokenBar.render();
     }
 });
 
@@ -263,3 +269,4 @@ document.addEventListener("click", async (event) => {
         else if (type === "skill") await actor.rollSkill({ skill: id }, { target: parseInt(dc) });
     } catch (e) { console.error(e); }
 }, true);
+

@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Foundry VTT Package Release
-        uses: Varriount/foundry-vtt-package-release@v1.1
+        uses: varriount/foundry-vtt-package-release@v1.1
         with:
           package-id: black-flag-token-bar
           api-key: ${{ secrets.FOUNDRY_API_KEY }}

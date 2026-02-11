@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.1.0] - 2026-03-01
+## [1.1.0] - 2026-02-11
 
 ### Added
 - **NPC/PC Condition Toggle**: GMs can now view and toggle 14 standard conditions directly on a selected NPC/PC target.

@@ -18,7 +18,7 @@ jobs:
             "release": {
               "version": "1.1.1",
               "manifest": "https://raw.githubusercontent.com/ghost00-Ricgames/black-flag-token-bar/main/module.json",
-              "notes": "https://github.com/ghost00-Ricgames/black-flag-token-bar/releases/tag/1.1.2",
+              "notes": "https://github.com/ghost00-Ricgames/black-flag-token-bar/releases/tag/v1.1.2",
               "compatibility": {
                 "minimum": "13",
                 "verified": "13"

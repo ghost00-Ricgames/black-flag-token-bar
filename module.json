@@ -8,7 +8,7 @@
       "url": "https://github.com/ghost00-Ricgames/black-flag-token-bar"
     }
   ],
-  "version": "1.1.0",
+  "version": "1.1.2",
   "compatibility": {
     "minimum": "13",
     "verified": "13",
@@ -34,7 +34,8 @@
   "packs": [],
   "url": "https://github.com/ghost00-Ricgames/black-flag-token-bar",
   "manifest": "https://raw.githubusercontent.com/ghost00-Ricgames/black-flag-token-bar/main/module.json",
-  "download": "https://github.com/ghost00-Ricgames/black-flag-token-bar/releases/download/1.1.1/black-flag-token-bar.zip"
+  "download": "https://github.com/ghost00-Ricgames/black-flag-token-bar/releases/download/1.1.2/black-flag-token-bar.zip"
 }
+
 
 

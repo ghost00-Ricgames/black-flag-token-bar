@@ -8,12 +8,12 @@ A draggable, high-contrast GM HUD designed specifically for the **Black Flag Rol
 ## 📸 Screenshots
 
 ### The Token Bar
-Monitor AC, HP, and Luck points for all your players at a glance.
-![Token Bar](BFRTokenbar.jpg)
+Monitor AC, HP, and Luck points for all your players at a glance. Toggle conditions for selected NPC/PC
+![Token Bar](BFRTokenbar1.1.jpg)
 
 ### Roll Requests
 Request Saves, Checks, or Skills with specific DCs. 
-![Roll Request Dialog](BFRRollRequest.jpg)
+![Roll Request Dialog](BFRRollRequest1.1.jpg)
 
 ## 🛠 Features
 
@@ -25,6 +25,7 @@ Request Saves, Checks, or Skills with specific DCs.
 * **Player Notifications:** Sends a subtle audio cue (dice sound) to players when a roll is requested.
 * **One-Click Pan:** Click a character portrait to instantly pan the camera to that token on the canvas.
 * **Utility Clearing:** Dedicated "Trash" button with a safety confirmation to wipe old roll requests from the chat log.
+* **Conditions Toggle** Selected token can be toggled any of the 14 built in conditions for ToV
 
 ## 🚀 Installation
 
@@ -39,6 +40,7 @@ To install the module, go to the **Add-on Modules** tab in the Foundry VTT setup
 3.  **Player Interaction:** Players receive a private chat card with a "Roll Now" button.
 4.  **GM Oversight:** The GM can also click the "Roll Now" button in chat to assist players.
 5.  **Clean Up:** Use the **Trash icon** on the far right to delete all pending BFR requests from the chat log.
+6.  **Conditions** Select any PC or NPC on field. click on button to apply or reset condition flags.
 
 ## ⚖️ License
 

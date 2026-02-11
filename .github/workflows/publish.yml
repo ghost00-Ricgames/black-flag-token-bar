@@ -8,11 +8,20 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Update Foundry Website
-        uses: djlechuck/foundryvtt-publish-package-action@v1
-        with:
-          token: ${{ secrets.FOUNDRY_API_KEY }}
-          manifest: https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/module.json
+        run: |
+          curl -X POST "https://api.foundryvtt.com/_api/packages/release_version/" \
+          -H "Content-Type: application/json" \
+          -H "Authorization: ${{ secrets.FOUNDRY_API_KEY }}" \
+          -d '{
+            "id": "black-flag-token-bar",
+            "release": {
+              "version": "1.1.0",
+              "manifest": "https://github.com/ghost00-Ricgames/black-flag-token-bar/releases/download/1.1.0/module.json",
+              "notes": "https://github.com/ghost00-Ricgames/black-flag-token-bar/releases/tag/1.1.0",
+              "compatibility": {
+                "minimum": "13",
+                "verified": "13"
+              }
+            }
+          }'

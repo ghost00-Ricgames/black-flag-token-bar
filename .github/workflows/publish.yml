@@ -11,10 +11,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Foundry VTT Package Release
-        uses: varriount/foundry-vtt-package-release@v1.1
+      - name: Update Foundry Website
+        uses: djlechuck/foundryvtt-publish-package-action@v1
         with:
-          package-id: black-flag-token-bar
-          api-key: ${{ secrets.FOUNDRY_API_KEY }}
-          tag: ${{ github.event.release.tag_name }}
-          manifest-url: https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/module.json
+          token: ${{ secrets.FOUNDRY_API_KEY }}
+          manifest: https://github.com/${{ github.repository }}/releases/download/${{ github.event.release.tag_name }}/module.json

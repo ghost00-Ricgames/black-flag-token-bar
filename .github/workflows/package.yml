@@ -1,23 +1,29 @@
-name: Create Release Asset
+name: Package GitHub Release
 
 on:
   release:
     types: [published]
 
+permissions:
+  contents: write
+
 jobs:
-  build:
+  package:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Create Module Zip
-        run: |
-          zip -r black-flag-token-bar.zip . -x ".git/*" ".github/*" "README.md" "LICENSE"
-
-      - name: Upload Zip to Release
-        uses: softprops/action-gh-release@v1
+      - uses: actions/checkout@v4
         with:
-          files: black-flag-token-bar.zip
+          ref: ${{ github.event.release.tag_name }}
+      - name: Validate release version
+        run: |
+          python3 -c 'import json,os; v=json.load(open("module.json"))["version"]; tag=os.environ["RELEASE_TAG"]; assert tag=="v"+v, f"Tag {tag} does not match v{v}"'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+      - name: Package module
+        run: zip -r black-flag-token-bar.zip module.json scripts styles templates
+      - name: Attach installation files
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            module.json
+            black-flag-token-bar.zip

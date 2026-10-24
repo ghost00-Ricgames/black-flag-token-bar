@@ -1,52 +1,28 @@
 # Black Flag Token Bar
 
-A draggable, high-contrast GM HUD designed specifically for the **Black Flag Roleplaying (Tales of the Valiant)** system on Foundry VTT.
+Draggable GM HUD for Black Flag Roleplaying (Tales of the Valiant).
 
-![Version](https://img.shields.io/badge/Foundry-v13-orange)
-![System](https://img.shields.io/badge/System-Black%20Flag-blue)
+## Compatibility
+- Foundry VTT 14
+- Black Flag Roleplaying 3.0.079 (and later 3.x versions, pending testing)
+- Token Bar 1.2.0 (development)
 
-## 📸 Screenshots
+## Features
+PC Armor Class, HP and Luck tracking; draggable GM HUD; player portrait focus; roll requests; condition toggles on selected tokens.
 
-### The Token Bar
-Monitor AC, HP, and Luck points for all your players at a glance. Toggle conditions for selected NPC/PC
-![Token Bar](BFRTokenbar1.1.jpg)
+Roll requests support ability saves, ability checks, skills, and blind death saves. For hidden DCs the player never receives the target number; the GM receives a separate private target reference and adjudicates the roll against it.
 
-### Roll Requests
-Request Saves, Checks, or Skills with specific DCs. 
-![Roll Request Dialog](BFRRollRequest1.1.jpg)
+## GitHub-only installation
+After v1.2.0 is reviewed and published as a GitHub release, in Foundry's Add-on Modules screen choose Install Module and paste:
 
-## 🛠 Features
+https://github.com/ghost00-Ricgames/black-flag-token-bar/releases/latest/download/module.json
 
-* **Draggable HUD:** Keep the bar anywhere on your screen. Positions are saved per client.
-* **Live Stat Tracking:** Monitor PC Armor Class (AC), Hit Points (HP), and Luck Points in real-time.
-* **Smart Roll Requests:** * Initiate **Saving Throws**, **Ability Checks**, and **Skill Checks** for controlled tokens or all PCs.
-    * **Automated Modifiers:** Deep-linked to the Black Flag data model to ensure proficiency, ability scores, and luck are correctly calculated.
-    * **Hidden DCs:** Set a DC that players can't see, allowing for "Unknown" difficulty rolls while maintaining system automation.
-* **Player Notifications:** Sends a subtle audio cue (dice sound) to players when a roll is requested.
-* **One-Click Pan:** Click a character portrait to instantly pan the camera to that token on the canvas.
-* **Utility Clearing:** Dedicated "Trash" button with a safety confirmation to wipe old roll requests from the chat log.
-* **Conditions Toggle** Selected token can be toggled any of the 14 built in conditions for ToV
+The release workflow uploads both a module.json manifest and a ZIP. No Foundry package directory submission is used.
 
-## 🚀 Installation
+## Testing before release
+Use Foundry V14 with Black Flag 3.0.079. Verify: GM bar rendering and saved position; player and NPC stats; token selection; statuses and exhaustion; roll modifiers and DCs; hidden DC privacy; blind death saves; chat ownership/permissions; deletion confirmation; multiple user sessions.
 
-To install the module, go to the **Add-on Modules** tab in the Foundry VTT setup screen, click **Install Module**, and paste the following manifest URL:
+This development branch is not a tested release. Manual runtime testing is necessary.
 
-`https://github.com/ghost00-Ricgames/black-flag-token-bar/releases/latest/download/module.json`
-
-## 📖 How to Use
-
-1.  **Open the Bar:** The bar renders automatically for the GM upon login.
-2.  **Request a Roll:** Click the **d20 icon** on the left. Choose the type of roll and set the DC.
-3.  **Player Interaction:** Players receive a private chat card with a "Roll Now" button.
-4.  **GM Oversight:** The GM can also click the "Roll Now" button in chat to assist players.
-5.  **Clean Up:** Use the **Trash icon** on the far right to delete all pending BFR requests from the chat log.
-6.  **Conditions** Select any PC or NPC on field. click on button to apply or reset condition flags.
-
-## ⚖️ License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## ❤️ Acknowledgements
-
-* Built for the **Black Flag Roleplaying** system by Kobold Press.
-* Special thanks to the Foundry VTT community for documentation on the V13 API transition.
+## License
+MIT.

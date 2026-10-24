@@ -1,34 +1,40 @@
-<div id="black-flag-token-bar">
-    <div class="drag-handle" title="Drag to reposition"><i class="fas fa-grip-vertical"></i></div>
-    
-    <div class="bar-main-content">
-        <div class="pc-row">
-            <div class="bar-controls">
-                <button class="request-rolls-btn" title="Roll Requests"><i class="fas fa-dice-d20"></i></button>
+<div class="bar-shell">
+  <div class="drag-handle" title="Drag to reposition" aria-label="Move token bar"><i class="fas fa-grip-vertical"></i></div>
+  <div class="bar-main-content">
+    <div class="pc-row">
+      <button type="button" class="request-rolls-btn" data-action="openRolls" title="Roll Requests"><i class="fas fa-dice-d20"></i></button>
+      <div class="token-stats-container">
+        {{#each tokens}}
+          <div class="token-stat-block">
+            <button type="button" class="portrait-button" data-action="focusToken" data-actor-uuid="{{this.uuid}}" title="Focus {{this.name}}"><img class="token-portrait" src="{{this.img}}" alt="{{this.name}}"></button>
+            <div class="stat-values">
+              <span class="stat ac" title="Armor Class"><i class="fas fa-shield-alt"></i> {{this.ac}}</span>
+              <span class="stat hp" title="Hit Points"><i class="fas fa-heart"></i> {{this.hp}}</span>
+              <span class="stat luck" title="Luck"><i class="fas fa-clover"></i> {{this.luck}}</span>
             </div>
-            <div class="token-stats-container">
-                {{#each tokens}}
-                <div class="token-stat-block">
-                    <img class="token-portrait" src="{{this.img}}" data-actor-id="{{this.id}}" title="{{this.name}}">
-                    <div class="stat-values">
-                        <span class="stat ac" title="Armor Class"><i class="fas fa-shield-alt"></i> {{this.ac}}</span>
-                        <span class="stat hp" title="Health"><i class="fas fa-heart"></i> {{this.hp.value}}</span>
-                        <span class="stat luck" title="Luck"><i class="fas fa-clover"></i> {{this.luck}}</span>
-                    </div>
-                </div>
-                {{#unless @last}}<div class="stat-divider"></div>{{/unless}}
-                {{/each}}
-            </div>
-            <div class="utility-controls">
-                <button class="clear-rolls-btn" title="Clear Chat"><i class="fas fa-trash"></i></button>
-            </div>
-        </div>
-
-        <div class="npc-row">
-            <span class="row-label">TARGET:</span>
-            <div id="active-target-content">
-                <div class="no-target-text">No token selected</div>
-            </div>
-        </div>
+          </div>
+          {{#unless @last}}<div class="stat-divider"></div>{{/unless}}
+        {{else}}
+          <span class="no-target-text">No player characters found</span>
+        {{/each}}
+      </div>
+      <button type="button" class="clear-rolls-btn" data-action="clearRequests" title="Clear Token Bar Requests"><i class="fas fa-trash"></i></button>
     </div>
+    <div class="npc-row">
+      <span class="row-label">TARGET:</span>
+      {{#if target}}
+      <div class="token-stat-block">
+        <img class="token-portrait" src="{{target.img}}" alt="{{target.name}}" title="{{target.name}}">
+        <div class="stat-values"><span class="stat ac" title="Armor Class">{{target.ac}}</span><span class="stat hp" title="Hit Points">{{target.hp}}</span></div>
+      </div>
+      <div class="effect-controls-grid">
+        {{#each conditions}}
+        <button type="button" class="condition-btn {{#if this.active}}active{{/if}}" data-action="toggleCondition" data-condition-id="{{this.id}}" title="{{this.label}}" aria-label="{{this.label}}" aria-pressed="{{this.active}}"><img src="{{this.img}}" alt=""></button>
+        {{/each}}
+      </div>
+      {{else}}
+        <span class="no-target-text">No token selected</span>
+      {{/if}}
+    </div>
+  </div>
 </div>

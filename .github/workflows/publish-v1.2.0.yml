@@ -1,0 +1,82 @@
+name: Publish Black Flag Token Bar v1.2.0
+
+on:
+  push:
+    branches:
+      - release/publish-v1.2.0
+    paths:
+      - .github/workflows/publish-v1.2.0.yml
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out verified release commit
+        uses: actions/checkout@v4
+        with:
+          ref: e51d667144c9d41c40828e5b2ba271bc1daa50e1
+          persist-credentials: false
+      - name: Verify target commit and manifest
+        env:
+          MAIN_SHA: e51d667144c9d41c40828e5b2ba271bc1daa50e1
+        run: |
+          test "$(git rev-parse HEAD)" = "$MAIN_SHA"
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('module.json').read_text())
+          assert data['id'] == 'black-flag-token-bar'
+          assert data['version'] == '1.2.0'
+          assert data['compatibility']['minimum'] == '14'
+          assert data['download'] == 'https://github.com/ghost00-Ricgames/black-flag-token-bar/releases/download/v1.2.0/black-flag-token-bar.zip'
+          assert data['manifest'] == 'https://github.com/ghost00-Ricgames/black-flag-token-bar/releases/latest/download/module.json'
+          print('Validated release manifest for v1.2.0')
+          PY
+          node --check scripts/main.js
+      - name: Build and inspect ZIP
+        run: |
+          zip -r black-flag-token-bar.zip module.json scripts styles templates LICENSE README.md CHANGELOG.md
+          unzip -t black-flag-token-bar.zip
+          unzip -p black-flag-token-bar.zip module.json | python3 -m json.tool > /dev/null
+      - name: Publish release with both assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view v1.2.0 >/dev/null 2>&1; then
+            echo 'Release v1.2.0 already exists. Not modifying an existing release.' >&2
+            exit 1
+          fi
+          cat > release-notes.md <<'NOTES'
+          ## Black Flag Token Bar v1.2.0
+
+          **Foundry VTT V14 / Black Flag Roleplaying 3.0.079**
+
+          This release modernizes Black Flag Token Bar for Foundry V14 and Black Flag 3.x. It includes the existing GM HUD, PC AC/HP/Luck tracking, token focus, roll requests, and condition controls.
+
+          ### What's new
+          - Migrated the GM HUD and roll request dialogs to Foundry's V14 ApplicationV2/DialogV2 APIs.
+          - Added hover tooltips showing condition names only.
+          - Corrected roll request DC handling, including private GM-only reminders for hidden DCs and blind death saves.
+          - Updated condition toggling to use the Black Flag game system API.
+          - Updated GitHub-only installation and automatic update configuration.
+
+          ### Install
+          In Foundry V14, open **Add-on Modules → Install Module**, then paste this manifest URL:
+
+          `https://github.com/ghost00-Ricgames/black-flag-token-bar/releases/latest/download/module.json`
+
+          The release includes `module.json` and `black-flag-token-bar.zip`. Distribution is through GitHub only, not the Foundry module directory.
+
+          ### Testing
+          Both v1.2.0-beta.1 and v1.2.0-beta.2 (condition tooltips) passed the module author's runtime functional testing.
+          NOTES
+          gh release create v1.2.0 module.json black-flag-token-bar.zip \
+            --target e51d667144c9d41c40828e5b2ba271bc1daa50e1 \
+            --title 'Black Flag Token Bar v1.2.0 — Foundry V14' \
+            --notes-file release-notes.md \
+            --latest
+          gh release view v1.2.0 --json tagName,name,url,assets

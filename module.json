@@ -35,5 +35,9 @@
   "packs": [],
   "url": "https://github.com/ghost00-Ricgames/black-flag-token-bar",
   "manifest": "https://github.com/ghost00-Ricgames/black-flag-token-bar/releases/latest/download/module.json",
-  "download": "https://github.com/ghost00-Ricgames/black-flag-token-bar/releases/latest/download/black-flag-token-bar.zip"
+  "download": "https://github.com/ghost00-Ricgames/black-flag-token-bar/releases/download/v1.2.0/black-flag-token-bar.zip",
+  "license": "LICENSE",
+  "readme": "README.md",
+  "changelog": "CHANGELOG.md",
+  "bugs": "https://github.com/ghost00-Ricgames/black-flag-token-bar/issues"
 }

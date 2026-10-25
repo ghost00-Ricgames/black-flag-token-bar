@@ -29,7 +29,7 @@
       </div>
       <div class="effect-controls-grid">
         {{#each conditions}}
-        <button type="button" class="condition-btn {{#if this.active}}active{{/if}}" data-action="toggleCondition" data-condition-id="{{this.id}}" title="{{this.label}}" aria-label="{{this.label}}" aria-pressed="{{this.active}}"><img src="{{this.img}}" alt=""></button>
+        <button type="button" class="condition-btn {{#if this.active}}active{{/if}}" data-action="toggleCondition" data-condition-id="{{this.id}}" data-tooltip="{{this.label}}" data-tooltip-text="{{this.label}}" data-tooltip-direction="UP" aria-label="{{this.label}}" aria-pressed="{{this.active}}"><img src="{{this.img}}" alt=""></button>
         {{/each}}
       </div>
       {{else}}

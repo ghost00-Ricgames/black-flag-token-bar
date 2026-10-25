@@ -1,29 +1,87 @@
-name: Package GitHub Release
+name: Validate and Package GitHub Release
 
 on:
+  pull_request:
+  push:
+    branches: [main]
   release:
     types: [published]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   package:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out the proposed code or release tag
+        uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.release.tag_name }}
-      - name: Validate release version
-        run: |
-          python3 -c 'import json,os; v=json.load(open("module.json"))["version"]; tag=os.environ["RELEASE_TAG"]; assert tag=="v"+v, f"Tag {tag} does not match v{v}"'
+          ref: ${{ github.event_name == 'release' && github.event.release.tag_name || github.sha }}
+
+      - name: Validate Foundry manifest and release version
         env:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
-      - name: Package module
-        run: zip -r black-flag-token-bar.zip module.json scripts styles templates
-      - name: Attach installation files
+        run: |
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          module = json.loads(Path("module.json").read_text(encoding="utf-8"))
+          module_id = "black-flag-token-bar"
+          version = module["version"]
+          assert module["id"] == module_id, "Unexpected module ID"
+          assert module["compatibility"]["minimum"] == "14", "Minimum core must be V14"
+          assert module["relationships"]["systems"][0]["id"] == "black-flag", "Wrong game system"
+          assert module["manifest"].endswith("/releases/latest/download/module.json")
+          assert module["download"].endswith(f"/releases/download/v{version}/{module_id}.zip"), "Download URL must be version-specific"
+          for resource in module.get("esmodules", []) + module.get("styles", []):
+              assert Path(resource).is_file(), f"Missing resource: {resource}"
+          for resource in ("templates/bar.html", "LICENSE", "README.md", "CHANGELOG.md"):
+              assert Path(resource).is_file(), f"Missing file: {resource}"
+          tag = os.environ.get("RELEASE_TAG", "")
+          if tag:
+              assert tag == f"v{version}", f"Release {tag} does not match v{version}"
+          print(f"Validated {module_id} version {version}")
+          PY
+
+      - name: Check JavaScript syntax
+        run: node --check scripts/main.js
+
+      - name: Build Foundry installer ZIP
+        run: zip -r black-flag-token-bar.zip module.json scripts styles templates LICENSE README.md CHANGELOG.md
+
+      - name: Verify ZIP integrity and manifest at archive root
+        run: |
+          unzip -t black-flag-token-bar.zip
+          unzip -p black-flag-token-bar.zip module.json | python3 -m json.tool > /dev/null
+
+      - name: Store preview package or release package
+        uses: actions/upload-artifact@v4
+        with:
+          name: foundry-token-bar-package
+          path: |
+            module.json
+            black-flag-token-bar.zip
+          if-no-files-found: error
+
+  publish:
+    name: Attach GitHub-only release assets
+    needs: package
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Retrieve validated package
+        uses: actions/download-artifact@v4
+        with:
+          name: foundry-token-bar-package
+
+      - name: Upload release manifest and ZIP
         uses: softprops/action-gh-release@v2
         with:
           files: |
             module.json
             black-flag-token-bar.zip
+          fail_on_unmatched_files: true

@@ -2,7 +2,18 @@
 
 All notable changes to Black Flag Token Bar are recorded here.
 
-## [1.2.0] - Pending GitHub release
+## [1.2.1] - 2026-11-06
+
+### Compatibility
+- User verified all seven core smoke-test checks on **Foundry V14.370**: startup, PC statistics, NPC target selection, conditions and tooltips, GM roll requests, player roll handling, and draggable HUD position persistence.
+- Updated the manifest's `compatibility.verified` field to the tested core build `14.370`. Minimum/maximum core generation remain V14; Black Flag minimum remains 3.0.079.
+- The exact Black Flag patch version used during this smoke test was not separately reported.
+
+### Release and documentation
+- Incremented the module version to 1.2.1 and pinned its ZIP download to the matching release.
+- Updated README compatibility and test information. No module JavaScript, templates, styles, or gameplay behavior changed.
+
+## [1.2.0] - 2026-10-25
 
 ### Compatibility
 - Updated for Foundry VTT V14 and Black Flag Roleplaying 3.0.079.

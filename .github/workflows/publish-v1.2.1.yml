@@ -1,0 +1,80 @@
+name: Publish Black Flag Token Bar v1.2.1
+
+on:
+  push:
+    branches:
+      - release/publish-v1.2.1
+    paths:
+      - .github/workflows/publish-v1.2.1.yml
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out verified release commit
+        uses: actions/checkout@v4
+        with:
+          ref: 72c651bf07a11bb1d944ea8987e0ab1aa451ccf2
+          persist-credentials: false
+      - name: Verify release commit, manifest and unchanged gameplay code
+        env:
+          MAIN_SHA: 72c651bf07a11bb1d944ea8987e0ab1aa451ccf2
+        run: |
+          test "$(git rev-parse HEAD)" = "$MAIN_SHA"
+          test "$(git hash-object scripts/main.js)" = "cc2a742d1e1a2c099d01bfe3c755cd2ab49e0a20"
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          manifest = json.loads(Path('module.json').read_text(encoding='utf-8'))
+          assert manifest['id'] == 'black-flag-token-bar'
+          assert manifest['version'] == '1.2.1'
+          assert manifest['compatibility'] == {'minimum': '14', 'verified': '14.370', 'maximum': '14'}
+          assert manifest['download'] == 'https://github.com/ghost00-Ricgames/black-flag-token-bar/releases/download/v1.2.1/black-flag-token-bar.zip'
+          assert manifest['manifest'] == 'https://github.com/ghost00-Ricgames/black-flag-token-bar/releases/latest/download/module.json'
+          PY
+          node --check scripts/main.js
+      - name: Package and verify installer
+        run: |
+          zip -r black-flag-token-bar.zip module.json scripts styles templates LICENSE README.md CHANGELOG.md
+          unzip -t black-flag-token-bar.zip
+          unzip -p black-flag-token-bar.zip module.json | python3 -m json.tool > /dev/null
+      - name: Publish GitHub-only v1.2.1 release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view v1.2.1 >/dev/null 2>&1; then
+            echo 'Release v1.2.1 already exists; aborting without modifying it.' >&2
+            exit 1
+          fi
+          cat > release-notes.md <<'NOTES'
+          ## Black Flag Token Bar v1.2.1
+
+          **Foundry V14.370 compatibility verification update**
+
+          The module user completed the seven-item V14.370 smoke test successfully: HUD startup, PC statistics, NPC target display, condition toggles/tooltips, GM roll requests, player roll requests, and HUD position persistence.
+
+          ### Changes
+          - The Foundry compatibility manifest now records **verified: 14.370**.
+          - Updated README and CHANGELOG with the test results and date.
+          - No gameplay JavaScript, templates, styles, or mechanics changed since v1.2.0.
+          - Minimum and maximum supported Foundry generation remain V14; minimum Black Flag system version remains 3.0.079.
+
+          The V14.370 result is a user-reported smoke test, not automated end-to-end testing. The exact Black Flag patch version used in this smoke test was not independently confirmed.
+
+          ### Install or update through GitHub
+          Foundry → Add-on Modules → Install Module → Manifest URL:
+
+          `https://github.com/ghost00-Ricgames/black-flag-token-bar/releases/latest/download/module.json`
+
+          This release includes `module.json` and `black-flag-token-bar.zip`. Distribution remains GitHub-only.
+          NOTES
+          gh release create v1.2.1 module.json black-flag-token-bar.zip \
+            --target 72c651bf07a11bb1d944ea8987e0ab1aa451ccf2 \
+            --title 'Black Flag Token Bar v1.2.1 — Foundry V14.370 Verified' \
+            --notes-file release-notes.md \
+            --latest
+          gh release view v1.2.1 --json tagName,name,url,assets
